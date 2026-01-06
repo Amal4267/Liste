@@ -1,66 +1,90 @@
 public class Lista {
-   Nodo root;
-   
-    public Lista(){
-        root = null;
-        
-        
-        
+    private Nodo head;
+    private Nodo tail;
+
+    public Lista() {
+        head = null;
+        tail = null;
     }
-    public void addHead( Nodo n ){
-            if(root == null){
-                root = n;
+
+  
+    public void addHead(Nodo n) {
+        if (head == null) {
+            head = tail = n;
+            return;
+        }
+        n.setNext(head);
+        head.setPrev(n);
+        head = n;
+    }
+
+
+    public void add(Nodo n) {
+        if (head == null) {
+            head = tail = n;
+            return;
+        }
+        tail.setNext(n);
+        n.setPrev(tail);
+        tail = n;
+    }
+
+  
+    public void remove(String s) {
+        Nodo temp = head;
+
+        while (temp != null) {
+            if (temp.getValue().equals(s)) {
+
+                if (temp.getPrev() != null)
+                    temp.getPrev().setNext(temp.getNext());
+                else
+                    head = temp.getNext();
+
+                if (temp.getNext() != null)
+                    temp.getNext().setPrev(temp.getPrev());
+                else
+                    tail = temp.getPrev();
+
                 return;
             }
-            n.setNext(root);
-            root = n;
+            temp = temp.getNext();
         }
-    public void add( Nodo n ){
-        if(root==null){
-            root = n;
-            return;
-        }
-        Nodo temp = root;
-        while(temp.getNext()!=null) temp=temp.getNext();
-        temp.setNext(n);
     }
-   public void remove(String s){
-      Nodo temp = root;
-      Nodo prima = null;
-         while(temp != null){
-            if(temp.getValue() == s){
-               if(prima == null){
-                  root = temp.getNext();
 
-               }else {
-                  prima.setNext(temp.getNext());
-               
-            }
-            return;
-         }
-      prima = temp;
-      temp = temp.getNext();
-   }  
+ 
+    public boolean exists(String s) {
+        Nodo temp = head;
 
-      public boolean exists(String s){
-      Nodo temp = root;
+        while (temp != null) {
+            if (temp.getValue().equals(s))
+                return true;
+            temp = temp.getNext();
+        }
+        return false;
+    }
 
-      while(temp != null){
-         if(temp.getValue() == s){
-            return true;
-         }else {
-            return false;
-         }
-      }
+  
+    public String toString() {
+        String s = "Lista (avanti): ";
+        Nodo temp = head;
 
-      }
-      public String toString(){
-        String s = "La lista contiene:";
-        Nodo temp = root;
-        while(temp!=null){
+        while (temp != null) {
             s += temp.getValue() + " - ";
             temp = temp.getNext();
         }
-        return s + "\n";
+        return s;
+    }
+
+    
+    public String toStringReverse() {
+        String s = "Lista (indietro): ";
+        Nodo temp = tail;
+
+        while (temp != null) {
+            s += temp.getValue() + " - ";
+            temp = temp.getPrev();
+        }
+        return s;
     }
 }
